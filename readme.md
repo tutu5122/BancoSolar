@@ -21,4 +21,6 @@
         FOREIGN KEY (receptor) REFERENCES usuarios(id) ON DELETE CASCADE
     );
 
+    se tiene que crear tambien un archivo .env que contenga 
+    PUERTO = 3000
 ```
