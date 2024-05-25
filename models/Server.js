@@ -16,6 +16,10 @@ import vistaHomeRoute from '../routes/vistaHome.routes.js';
 import agregarRoute from '../routes/agregar.routes.js';
 import consultarRoute from '../routes/consultarUsuario.routes.js';
 import eliminarRoute from '../routes/eliminar.routes.js';
+import editarRoute from '../routes/editar.routes.js';
+import nuevaTrasferenciaRoute from '../routes/nuevaTrasferencia.routes.js';
+import mostrarTrasferenciaRoute from '../routes/consultarTrasferencias.routes.js';
+
 
 
 // Creamos nuestro modelo o clase de servidor
@@ -34,8 +38,10 @@ class Server {
             rootHome:'/',
             rootAgregar:'/usuario',
             rootConsultar:'/usuarios',
-            rootModificar:'/modificar',
-            rootEliminar:'/usuario'
+            rootEditar:'/usuario',
+            rootEliminar:'/usuario',
+            rootNuevaTrasferencia:'/transferencia',
+            rootConsultarTrasferencia:'/transferencias',
         }
 
         // Iniciamos nuestros metodos iniciales
@@ -49,10 +55,6 @@ class Server {
         this.app.use( express.json() );
         
         this.app.use( express.static('public') );
-        // this.app.use('/css', express.static(`${__dirname}/../public/assets/css`));
-        // this.app.use('/img', express.static( `${__dirname}/../public/assets/img`));
-        // this.app.use('/js', express.static( `${__dirname}/../public/assets/js`));
-        // this.app.use('/jquery', express.static( `${__dirname}/../node_modules/bootstrap/dist/css`));
           
     }
 
@@ -62,8 +64,11 @@ class Server {
         this.app.use( this.frontEndPaths.rootHome , vistaHomeRoute );
         this.app.use( this.frontEndPaths.rootAgregar , agregarRoute );
         this.app.use( this.frontEndPaths.rootConsultar , consultarRoute );
+        this.app.use( this.frontEndPaths.rootEditar , editarRoute );
         this.app.use( this.frontEndPaths.rootEliminar , eliminarRoute );
-  
+        this.app.use( this.frontEndPaths.rootNuevaTrasferencia , nuevaTrasferenciaRoute );
+        this.app.use( this.frontEndPaths.rootConsultarTrasferencia , mostrarTrasferenciaRoute );
+        
     }
 
     listen(){

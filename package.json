@@ -1,7 +1,7 @@
 {
   "name": "bancosolar",
   "version": "1.0.0",
-  "description": "",
+  "description": "```sql",
   "main": "app.js",
   "type": "module",
   "scripts": {

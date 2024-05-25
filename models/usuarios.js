@@ -37,6 +37,22 @@ export const eliminar = async ( id ) => {
     } catch (error) {
         console.error('Error al eliminar el usuario:', error);
     } finally {
-        if (client) client.release();
+        if (client){
+            client.release();
+       }
+    }
+};
+
+export const editar = async ( id, nombre , balance ) => {
+    let client;
+    try {
+        client = await pool.connect();
+        await client.query(`UPDATE usuarios SET nombre = $2, balance = $3 WHERE id = $1`, [id, nombre, balance]);
+    } catch (error) {
+        console.error('Error al modificar el usuario:', error);
+    } finally {
+        if (client){
+            client.release();
+       }
     }
 };

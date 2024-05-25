@@ -13,6 +13,7 @@
       integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
       crossorigin="anonymous"
     />
+    <script src=" https://cdn.jsdelivr.net/npm/date-fns@3.6.0/cdn.min.js "></script>
   </head>
   <body class="p-5">
     <h1
@@ -166,6 +167,7 @@
     ></script>
     <script src="https://momentjs.com/downloads/moment.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
 
     <div
       class="modal fade"
@@ -234,13 +236,14 @@
   };
 
   const editUsuario = async (id) => {
-    const name = $("#nombreEdit").val();
+    const nombre = $("#nombreEdit").val();
     const balance = $("#balanceEdit").val();
     try {
       const { data } = await axios.put(
-        `http://localhost:3000/usuario?id=${id}`,
+ // http://localhost:3000/usuario?id=${id} modifique esta parte para que me funcionara el editar       
+        `http://localhost:3000/usuario/${id}`,
         {
-          name,
+          nombre,
           balance,
         }
       );
@@ -276,8 +279,8 @@
 
   $("form:last").submit(async (e) => {
     e.preventDefault();
-    let emisor = $("form:last select:first").val();
-    let receptor = $("form:last select:last").val();
+    let emisor  = $("form:last select:first").val();
+    let receptor  = $("form:last select:last").val();
     let monto = $("#monto").val();
     if (!monto || !emisor || !receptor) {
       alert("Debe seleccionar un emisor, receptor y monto a transferir");
@@ -296,6 +299,7 @@
         }),
       });
       const data = await response.json();
+      alert(data.message)
       location.reload();
     } catch (e) {
       console.log(e);
@@ -339,17 +343,18 @@
     getUsuarios();
   };
 
+
   const getTransferencias = async () => {
     const { data } = await axios.get("http://localhost:3000/transferencias");
     $(".transferencias").html("");
-
+// aca cambien los t[1] , t[2], t[3], t[4] por fecha, emisor, receptor, monto
     data.forEach((t) => {
       $(".transferencias").append(`
        <tr>
-         <td> ${formatDate(t[4])} </td>
-         <td> ${t[1]} </td>
-         <td> ${t[2]} </td>
-         <td> ${t[3]} </td>
+         <td> ${formatDate(t.fecha)} </td>
+         <td> ${t.emisor} </td>
+         <td> ${t.receptor} </td>
+         <td> ${t.monto} </td>
        </tr>
      `);
     });
@@ -358,10 +363,15 @@
   getUsuarios();
   getTransferencias();
 
+  //const formatDate = (date) => {
+  //const dateFormat = moment(date).format("L");
+  //const timeFormat = moment(date).format("LTS");
+  //return `${dateFormat} ${timeFormat}`;
+  //};
+  // cambie esta parte para ver la fecha en formato dd/MM/YYYY
+
   const formatDate = (date) => {
-    const dateFormat = moment(date).format("L");
-    const timeFormat = moment(date).format("LTS");
-    return `${dateFormat} ${timeFormat}`;
+    return moment(date).format("DD/MM/YYYY HH:mm");
   };
   formatDate();
 </script>
